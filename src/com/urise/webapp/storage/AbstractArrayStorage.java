@@ -10,27 +10,41 @@ public abstract class AbstractArrayStorage implements Storage {
     protected int size = 0;
 
     public void update(String uuid) {
-        int position = getIndex(uuid);
-        if (position >= 0) {
-            storage[position].setUuid(uuid);
+        int index = getIndex(uuid);
+        if (index < 0) {
+            System.out.println("Resume with id " + uuid + " is not present in storage.");
+        } else if (!storage[index].getUuid().equals(uuid)) {
+            System.out.println("Resumes are not equals!");
+        } else {
+            storage[index].setUuid(uuid);
         }
     }
 
     public void save(Resume resume) {
-        if (getIndex(resume.getUuid()) < 0 && size != storage.length) {
-            saveElement(resume);
+        int index = getIndex(resume.getUuid());
+        if (index >= 0) {
+            System.out.println("Resume with id " + resume.getUuid() + " is not present in storage.");
+        } else if (size == storage.length) {
+            System.out.println("Storage of resumes is full!");
+        } else {
+            saveElement(resume, index);
+            size++;
         }
     }
 
     public void delete(String uuid) {
-        int position = getIndex(uuid);
-        if (position >= 0) {
-            deleteElement(uuid, position);
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            deleteElement(uuid, index);
+            storage[size - 1] = null;
+            size--;
+        } else {
+            System.out.println("Resume with id " + uuid + " is not present in storage.");
         }
     }
 
     public void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
@@ -59,7 +73,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract int getIndex(String uuid);
 
-    protected abstract void saveElement(Resume resume);
+    protected abstract void saveElement(Resume resume, int index);
 
     protected abstract void deleteElement(String uuid, int index);
 
