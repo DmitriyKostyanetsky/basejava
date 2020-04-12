@@ -54,7 +54,7 @@ public class MainArray {
                     printAll();
                     break;
                 case "update":
-                    ARRAY_STORAGE.update(uuid);
+                    ARRAY_STORAGE.update(new Resume());
                     printAll();
                     break;
                 case "exit":

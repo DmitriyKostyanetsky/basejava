@@ -11,11 +11,11 @@ public class MainReflection {
         Resume r = new Resume();
         Field field = r.getClass().getDeclaredFields()[0];
         field.setAccessible(true);
-        System.out.println(field.getName());
         System.out.println(field.get(r));
         field.set(r, "new_uuid");
-        Method method = r.getClass().getDeclaredMethod("toString", (Class<Resume>[]) null);
+        Method method = r.getClass().getDeclaredMethod("toString");
         method.setAccessible(true);
-        System.out.println(method.invoke(r, (Object[]) null));
+        System.out.println(method.invoke(r));
+        System.out.println(r.toString());
     }
 }
